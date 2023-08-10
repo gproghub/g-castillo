@@ -1,10 +1,10 @@
-import './globals.css';
 import type { Metadata } from 'next';
 import { Kanit } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
-import { ThemeProvider } from '@/components/theme-provider';
 
+import { ThemeProvider } from '@/components/theme-provider';
 import Navbar from '@/components/navbar';
+import './globals.css';
 
 const kanit = Kanit({ subsets: ['latin'], weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'] });
 
@@ -15,7 +15,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: '#00B981',
+          colorTextSecondary: 'black',
+          colorText: 'black',
+          colorAlphaShade: '#00B981',
+        },
+      }}
+    >
       <html lang="en">
         <body className={kanit.className}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

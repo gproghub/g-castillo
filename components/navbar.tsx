@@ -14,7 +14,7 @@ const Navbar = () => {
   const { userId } = useAuth();
 
   return (
-    <div className="flex items-center justify-between px-3 py-3">
+    <div className="flex items-center justify-between px-3 py-3 shadow-md shadow-emerald-500">
       <div className="flex gap-x-7 items-center justify-between w-full">
         <h1 className="text-2xl md:text-3xl lg:text-4xl cursor-pointer font-bold tracking-wider" onClick={() => router.push('/')}>
           Castillo
