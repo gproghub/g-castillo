@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Kanit } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
+import { ThemeProvider } from '@/components/theme-provider';
 
 import Navbar from '@/components/navbar';
 
@@ -17,8 +18,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ClerkProvider>
       <html lang="en">
         <body className={kanit.className}>
-          <Navbar />
-          {children}
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <Navbar />
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
