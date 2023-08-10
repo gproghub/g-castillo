@@ -5,8 +5,12 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { ThemeProvider } from '@/components/theme-provider';
 import Navbar from '@/components/navbar';
 import './globals.css';
+import { ToastProvider } from '@/components/toast-provider';
 
-const kanit = Kanit({ subsets: ['latin'], weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'] });
+const kanit = Kanit({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -28,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="en">
         <body className={kanit.className}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <ToastProvider />
             <Navbar />
             {children}
           </ThemeProvider>

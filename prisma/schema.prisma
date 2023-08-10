@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Peso {
+  id                String      @id @default(auto()) @map("_id") @db.ObjectId
+  peso              Int   
+  grasaCorporal     Int   
+  agua              Int   
+  grasaVisceral     Int   
+  musculo           Int   
+  nivelFisico       Int   
+  hueso             Int   
+  energia           Int   
+  edadMetabolica    Int  
+  imc               Int 
+  userId            String
+}
