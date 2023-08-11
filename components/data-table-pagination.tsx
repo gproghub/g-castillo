@@ -11,7 +11,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
+        <div className="hidden sm:flex items-center space-x-2">
           <p className="text-sm font-medium">Filas por página</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
@@ -19,7 +19,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
               table.setPageSize(Number(value));
             }}
           >
-            <SelectTrigger className="h-8 w-[70px] border-none text-emerald-500 rounded-xl shadow-md shadow-emerald-500 bg-white dark:bg-black">
+            <SelectTrigger className="h-8 w-[70px] border-none text-emerald-500 rounded-xl shadow-md shadow-emerald-500  bg-white dark:bg-black">
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent
@@ -35,12 +35,12 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
           </Select>
         </div>
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+          Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
         </div>
         <div className="flex items-center space-x-2">
           <Button
-            variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex shadow-emerald-500 items-center text-emerald-500 shadow-md text-xl rounded-xl hover:bg-emerald-500 hover:text-white duration-500"
+            variant="default"
+            className="hidden h-8 w-8 p-0 lg:flex shadow-emerald-500 items-center text-emerald-500 shadow-md text-xl rounded-xl hover:bg-emerald-500 hover:text-white duration-500 "
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
@@ -48,8 +48,8 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             <ArrowLeftIcon className="h-4 w-4" />
           </Button>
           <Button
-            variant="outline"
-            className="h-8 w-8 p-0 flex shadow-emerald-500 items-center text-emerald-500 shadow-md text-xl rounded-xl hover:bg-emerald-500 hover:text-white duration-500"
+            variant="default"
+            className="h-8 w-8 p-0 flex shadow-emerald-500 items-center text-emerald-500 shadow-md text-xl rounded-xl hover:bg-emerald-500 hover:text-white duration-500 "
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
@@ -57,8 +57,8 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             <ChevronLeftIcon className="h-4 w-4" />
           </Button>
           <Button
-            variant="outline"
-            className="h-8 w-8 p-0 flex shadow-emerald-500 items-center text-emerald-500 shadow-md text-xl rounded-xl hover:bg-emerald-500 hover:text-white duration-500"
+            variant="default"
+            className="h-8 w-8 p-0 flex shadow-emerald-500 items-center text-emerald-500 shadow-md text-xl rounded-xl hover:bg-emerald-500 hover:text-white duration-500 dark:hover:text-black"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
@@ -66,8 +66,8 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             <ChevronRightIcon className="h-4 w-4" />
           </Button>
           <Button
-            variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex shadow-emerald-500 items-center text-emerald-500 shadow-md text-xl rounded-xl hover:bg-emerald-500 hover:text-white duration-500"
+            variant="default"
+            className="hidden h-8 w-8 p-0 lg:flex shadow-emerald-500 items-center text-emerald-500 shadow-md text-xl rounded-xl hover:bg-emerald-500 hover:text-white duration-500 dark:hover:text-black"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >

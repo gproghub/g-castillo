@@ -24,7 +24,7 @@ const PesoClient: React.FC<PesosProps> = ({ pesos }) => {
         <h2 className="text-xl md:text-2xl lg:text-3xl w-full text-emerald-500 ">Pesos</h2>
         <Button
           onClick={() => router.push('/pesos/new')}
-          className="shadow-emerald-500 flex items-center text-emerald-500 shadow-md text-xl rounded-xl hover:bg-emerald-500 hover:text-white duration-500"
+          className="shadow-emerald-500 flex items-center text-emerald-500 shadow-md text-xl rounded-xl hover:bg-emerald-500 hover:text-white dark:hover:text-black duration-500"
         >
           <Plus />
           Añadir

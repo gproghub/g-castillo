@@ -95,12 +95,16 @@ const PesoForm: React.FC<PesoFormProps> = ({ initialData }) => {
                     <Button
                       variant={'outline'}
                       className={cn(
-                        'w-[240px] pl-3 text-left font-normal',
+                        'w-[200px] pl-3 text-left font-normal',
                         !field.value && 'text-muted-foreground'
                       )}
                     >
-                      {field.value ? format(field.value, 'PPP') : <span>Elige una fecha</span>}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      {field.value ? (
+                        format(field.value, 'PPP')
+                      ) : (
+                        <span className=" opacity-30">Elige una fecha sin peso</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50 text-emerald-500" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
@@ -252,7 +256,7 @@ const PesoForm: React.FC<PesoFormProps> = ({ initialData }) => {
           />
         </div>
         <Button
-          className="shadow-emerald-500 text-emerald-500 shadow-md text-xl rounded-xl w-5/6 max-w-[200px] mx-auto my-8 hover:bg-emerald-500 hover:text-white duration-500"
+          className="shadow-emerald-500 text-emerald-500 shadow-md text-xl rounded-xl w-5/6 max-w-[200px] mx-auto my-8 hover:bg-emerald-500 dark:hover:text-black hover:text-white duration-500"
           type="submit"
         >
           {initialData ? 'Actualizar peso' : 'Registrar peso'}

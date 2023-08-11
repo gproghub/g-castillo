@@ -23,7 +23,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         caption_label: 'text-sm font-medium',
         nav: 'space-x-1 flex items-center',
         nav_button: cn(
-          buttonVariants({ variant: 'outline' }),
+          buttonVariants({ variant: 'default' }),
           'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100'
         ),
         nav_button_previous: 'absolute left-1',
@@ -47,8 +47,12 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         ...classNames,
       }}
       components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
+        IconLeft: ({ ...props }) => (
+          <ChevronLeft className="h-8 w-8 p-0 flex shadow-emerald-500 items-center text-emerald-500 shadow-md text-xl rounded-xl dark:hover:text-black hover:bg-emerald-500 hover:text-white duration-500" />
+        ),
+        IconRight: ({ ...props }) => (
+          <ChevronRight className="h-8 w-8 p-0 flex shadow-emerald-500 items-center text-emerald-500 shadow-md text-xl rounded-xl dark:hover:text-black hover:bg-emerald-500 hover:text-white duration-500" />
+        ),
       }}
       {...props}
     />
