@@ -2,16 +2,19 @@ import prismadb from '@/lib/prismadb';
 import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 
-// CREATE POST
-
-export const POST = async (req: Request) => {
+// UPDATE PESO
+export const PATCH = async (req: Request, { params }: { params: { pesoId: string } }) => {
   try {
-    const { userId } = auth();
-    if (!userId) return null;
+    //Check params exists
+    if (!params.pesoId) return new NextResponse('pesoId requerido');
 
-    // Check body params
+    // Check user exists
+    const { userId } = auth();
+    if (!userId) return new NextResponse('Unautenticated', { status: 401 });
+
+    // Check body params exist
     const {
-      peso,
+      masa,
       grasaCorporal,
       agua,
       grasaVisceral,
@@ -23,7 +26,7 @@ export const POST = async (req: Request) => {
       imc,
     } = await req.json();
     if (
-      !peso ||
+      !masa ||
       !grasaCorporal ||
       !agua ||
       !grasaVisceral ||
@@ -37,9 +40,13 @@ export const POST = async (req: Request) => {
       return new NextResponse('All the fields are required', { status: 400 });
     }
 
-    const newPeso = await prismadb.peso.create({
+    // Update peso
+    const updatedPeso = await prismadb.peso.update({
+      where: {
+        id: params.pesoId,
+      },
       data: {
-        peso,
+        masa,
         grasaCorporal,
         agua,
         grasaVisceral,
@@ -49,13 +56,11 @@ export const POST = async (req: Request) => {
         energia,
         edadMetabolica,
         imc,
-        userId,
       },
     });
-
-    return NextResponse.json(newPeso);
+    return NextResponse.json(updatedPeso);
   } catch (error) {
+    console.log('[PESO_PATCH]', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
-  // Check user exists
 };

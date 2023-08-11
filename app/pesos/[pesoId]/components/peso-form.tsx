@@ -1,3 +1,5 @@
+'use client';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -19,13 +21,13 @@ import { Button } from '@/components/ui/button';
 // import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 // import { Calendar } from '@/components/ui/calendar';
 // import { cn } from '@/lib/utils';
-import { Separator } from '@/components/ui/separator';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { Peso } from '@prisma/client';
 
 const formSchema = z.object({
   // fecha: z.date(),
-  peso: z.coerce.number().min(1),
+  masa: z.coerce.number().min(1),
   grasaCorporal: z.coerce.number().min(1),
   agua: z.coerce.number().min(1),
   grasaVisceral: z.coerce.number().min(1),
@@ -37,12 +39,17 @@ const formSchema = z.object({
   imc: z.coerce.number().min(1),
 });
 
-const PesoForm = () => {
+interface PesoFormProps {
+  initialData?: Peso | null;
+}
+
+const PesoForm: React.FC<PesoFormProps> = ({ initialData }) => {
   const router = useRouter();
+  const params = useParams();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      peso: 0,
+    defaultValues: initialData || {
+      masa: 0,
       grasaCorporal: 0,
       agua: 0,
       grasaVisceral: 0,
@@ -57,11 +64,14 @@ const PesoForm = () => {
 
   const onSubmit = async (peso: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.post(`/api/peso`, peso);
-      console.log(response);
+      if (initialData) {
+        await axios.patch(`/api/pesos/${params.pesoId}`, peso);
+      } else {
+        await axios.post('/api/pesos', peso);
+      }
       router.refresh();
-      toast.success('Peso registrado');
-      router.push('/peso');
+      toast.success(initialData ? 'Peso Actualizado' : 'Peso Registrado');
+      router.push('/pesos');
     } catch (error) {
       console.log(error);
     }
@@ -69,10 +79,10 @@ const PesoForm = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col justify-center mx-auto gap-y-6"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col justify-center gap-6">
+        <h2 className="text-xl md:text-2xl lg:text-3xl w-full text-emerald-500 ">
+          {initialData ? 'Actualiza tu peso' : 'Registra tu peso'}
+        </h2>
         {/* <FormField
           control={form.control}
           name="fecha"
@@ -106,7 +116,7 @@ const PesoForm = () => {
         <div className="gap-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <FormField
             control={form.control}
-            name="peso"
+            name="masa"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Peso(kg)</FormLabel>
@@ -239,7 +249,7 @@ const PesoForm = () => {
           className="border-emerald-500 text-emerald-500 border w-5/6 max-w-lg rounded-xl mx-auto hover:bg-emerald-500 hover:text-white duration-500 mt-4"
           type="submit"
         >
-          REGISTRAR PESO
+          {initialData ? 'Actualizar peso' : 'Registrar peso'}
         </Button>
       </form>
     </Form>
