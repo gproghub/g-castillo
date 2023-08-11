@@ -14,6 +14,7 @@ export const PATCH = async (req: Request, { params }: { params: { pesoId: string
 
     // Check body params exist
     const {
+      fecha,
       masa,
       grasaCorporal,
       agua,
@@ -26,6 +27,7 @@ export const PATCH = async (req: Request, { params }: { params: { pesoId: string
       imc,
     } = await req.json();
     if (
+      !fecha ||
       !masa ||
       !grasaCorporal ||
       !agua ||
@@ -46,6 +48,7 @@ export const PATCH = async (req: Request, { params }: { params: { pesoId: string
         id: params.pesoId,
       },
       data: {
+        fecha,
         masa,
         grasaCorporal,
         agua,

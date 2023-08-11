@@ -12,6 +12,7 @@ datasource db {
 
 model Peso {
   id                String      @id @default(auto()) @map("_id") @db.ObjectId
+  fecha             DateTime    @default(now()) @unique
   masa              Int   
   grasaCorporal     Int   
   agua              Int   

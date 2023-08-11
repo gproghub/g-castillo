@@ -11,6 +11,7 @@ export const POST = async (req: Request) => {
 
     // Check body params
     const {
+      fecha,
       masa,
       grasaCorporal,
       agua,
@@ -23,6 +24,7 @@ export const POST = async (req: Request) => {
       imc,
     } = await req.json();
     if (
+      !fecha ||
       !masa ||
       !grasaCorporal ||
       !agua ||
@@ -39,6 +41,7 @@ export const POST = async (req: Request) => {
 
     const newPeso = await prismadb.peso.create({
       data: {
+        fecha,
         masa,
         grasaCorporal,
         agua,

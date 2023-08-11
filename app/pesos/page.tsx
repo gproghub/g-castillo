@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs';
 
 import prismadb from '@/lib/prismadb';
 import PesoClient from './pesos-client';
+import { useEffect, useState } from 'react';
 
 const PesosPage = async () => {
   const { userId } = auth();

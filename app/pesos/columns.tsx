@@ -11,14 +11,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Copy, Edit, MoreHorizontal } from 'lucide-react';
+import { Copy, Edit, MoreHorizontal, ArrowUpDown } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { DatePickerDemo } from '@/components/ui/date-picker';
+import { es } from 'date-fns/locale';
+import { setDefaultOptions, format } from 'date-fns';
+
+setDefaultOptions({ locale: es });
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type PesoColumn = {
   id: string;
+  fecha: Date;
   masa: number;
   grasaCorporal: number;
   agua: number;
@@ -38,44 +44,24 @@ const onCopy = (id: string) => {
 
 export const columns: ColumnDef<PesoColumn>[] = [
   {
-    accessorKey: 'masa',
-    header: 'Masa (kg)',
-  },
-  {
-    accessorKey: 'grasaCorporal',
-    header: 'Grasa Corp. (%)',
-  },
-  {
-    accessorKey: 'agua',
-    header: 'Agua (%)',
-  },
-  {
-    accessorKey: 'grasaVisceral',
-    header: 'Grasa Visc. (%)',
-  },
-  {
-    accessorKey: 'musculo',
-    header: 'Músculo (kg)',
-  },
-  {
-    accessorKey: 'nivelFisico',
-    header: 'Nivel Fisico',
-  },
-  {
-    accessorKey: 'hueso',
-    header: 'Hueso (kg)',
-  },
-  {
-    accessorKey: 'energia',
-    header: 'Energía (kCal)',
-  },
-  {
-    accessorKey: 'edadMetabolica',
-    header: 'Edad Metabólica',
-  },
-  {
-    accessorKey: 'imc',
-    header: 'IMC',
+    accessorKey: 'fecha',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="flex items-center justify-center w-16 p-0 my-2"
+        >
+          <ArrowUpDown className="text-center text-2xl  w-3 h-3 text-emerald-500" />
+          <p className=" w-12">Fecha</p>
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const fecha: Date = row.getValue('fecha');
+      const formattedDate = format(fecha, "dd'/'MM'/'y");
+      return formattedDate;
+    },
   },
   {
     id: 'actions',
@@ -93,7 +79,7 @@ export const columns: ColumnDef<PesoColumn>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            align="end"
+            align="start"
             className="bg-white dark:bg-black border-none rounded-xl shadow-md shadow-emerald-500"
           >
             <DropdownMenuItem
@@ -112,6 +98,156 @@ export const columns: ColumnDef<PesoColumn>[] = [
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+      );
+    },
+  },
+  {
+    accessorKey: 'masa',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="flex items-center justify-center w-16 p-0 my-2"
+        >
+          <ArrowUpDown className="text-center text-2xl  w-3 h-3 text-emerald-500" />
+          <p className=" w-12">Masa (kg)</p>
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'grasaCorporal',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="flex items-center justify-center w-16 p-0 my-2"
+        >
+          <ArrowUpDown className="text-center text-2xl  w-3 h-3 text-emerald-500" />
+          <p className=" w-12">G.Corp (%)</p>
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'agua',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="flex items-center justify-center w-16 p-0 my-2"
+        >
+          <ArrowUpDown className="text-center text-2xl  w-3 h-3 text-emerald-500" />
+          <p className=" w-12">Agua (%)</p>
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'grasaVisceral',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="flex items-center justify-center w-16 p-0 my-2"
+        >
+          <ArrowUpDown className="text-center text-2xl  w-3 h-3 text-emerald-500" />
+          <p className=" w-12">G.Vis (%)</p>
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'musculo',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="flex items-center justify-center w-16 p-0 my-2"
+        >
+          <ArrowUpDown className="text-center text-2xl  w-3 h-3 text-emerald-500" />
+          <p className=" w-12">Músc (kg)</p>
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'nivelFisico',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="flex items-center justify-center w-16 p-0 my-2"
+        >
+          <ArrowUpDown className="text-center text-2xl  w-3 h-3 text-emerald-500" />
+          <p className=" w-12">Nivel Físico</p>
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'hueso',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="flex items-center justify-center w-16 p-0 my-2"
+        >
+          <ArrowUpDown className="text-center text-2xl  w-3 h-3 text-emerald-500" />
+          <p className=" w-12">Hueso (kg)</p>
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'energia',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="flex items-center justify-center w-16 p-0 my-2"
+        >
+          <ArrowUpDown className="text-center text-2xl  w-3 h-3 text-emerald-500" />
+          <p className=" w-12">Energía (kCal)</p>
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'edadMetabolica',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="flex items-center justify-center w-16 p-0 my-2"
+        >
+          <ArrowUpDown className="text-center text-2xl  w-3 h-3 text-emerald-500" />
+          <p className=" w-12">E.Met (años)</p>
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'imc',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="flex items-center justify-center w-16 p-0 my-2"
+        >
+          <ArrowUpDown className="text-center text-2xl  w-3 h-3 text-emerald-500" />
+          <p className=" w-12">IMC</p>
+        </Button>
       );
     },
   },

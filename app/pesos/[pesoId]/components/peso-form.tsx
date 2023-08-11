@@ -18,15 +18,15 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-// import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-// import { Calendar } from '@/components/ui/calendar';
-// import { cn } from '@/lib/utils';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { cn } from '@/lib/utils';
 import { useParams, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { Peso } from '@prisma/client';
 
 const formSchema = z.object({
-  // fecha: z.date(),
+  fecha: z.date(),
   masa: z.coerce.number().min(1),
   grasaCorporal: z.coerce.number().min(1),
   agua: z.coerce.number().min(1),
@@ -83,7 +83,7 @@ const PesoForm: React.FC<PesoFormProps> = ({ initialData }) => {
         <h2 className="text-xl md:text-2xl lg:text-3xl w-full text-emerald-500 ">
           {initialData ? 'Actualiza tu peso' : 'Registra tu peso'}
         </h2>
-        {/* <FormField
+        <FormField
           control={form.control}
           name="fecha"
           render={({ field }) => (
@@ -92,7 +92,13 @@ const PesoForm: React.FC<PesoFormProps> = ({ initialData }) => {
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
-                    <Button variant={'outline'} className={cn('w-[240px] pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}>
+                    <Button
+                      variant={'outline'}
+                      className={cn(
+                        'w-[240px] pl-3 text-left font-normal',
+                        !field.value && 'text-muted-foreground'
+                      )}
+                    >
                       {field.value ? format(field.value, 'PPP') : <span>Elige una fecha</span>}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -111,7 +117,7 @@ const PesoForm: React.FC<PesoFormProps> = ({ initialData }) => {
               <FormMessage />
             </FormItem>
           )}
-        /> */}
+        />
         {/* <Separator className="border-emerald-500 border" /> */}
         <div className="gap-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <FormField
@@ -246,7 +252,7 @@ const PesoForm: React.FC<PesoFormProps> = ({ initialData }) => {
           />
         </div>
         <Button
-          className="border-emerald-500 text-emerald-500 border w-5/6 max-w-lg rounded-xl mx-auto hover:bg-emerald-500 hover:text-white duration-500 mt-4"
+          className="shadow-emerald-500 text-emerald-500 shadow-md text-xl rounded-xl w-5/6 max-w-[200px] mx-auto my-8 hover:bg-emerald-500 hover:text-white duration-500"
           type="submit"
         >
           {initialData ? 'Actualizar peso' : 'Registrar peso'}

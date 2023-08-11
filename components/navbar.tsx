@@ -45,7 +45,7 @@ const Navbar = () => {
               className="text-white self-end cursor-pointer"
               onClick={() => setIsMenuOpen(false)}
             />
-            <MainNav mobile={true} />
+            <MainNav mobile={true} setIsMenuOpen={setIsMenuOpen} />
           </div>
         )}
       </div>

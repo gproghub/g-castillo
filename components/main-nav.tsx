@@ -5,9 +5,10 @@ import { cn } from '@/lib/utils';
 
 interface MainNavProps {
   mobile: boolean;
+  setIsMenuOpen?: (arg: boolean) => void;
 }
 
-const MainNav: React.FC<MainNavProps> = ({ mobile }) => {
+const MainNav: React.FC<MainNavProps> = ({ mobile, setIsMenuOpen }) => {
   const pathname = usePathname();
   const router = useRouter();
   const routes = [
@@ -43,6 +44,11 @@ const MainNav: React.FC<MainNavProps> = ({ mobile }) => {
             'hover:scale-110 duration-200 hover:text-emerald-500',
             route.active && 'text-emerald-500'
           )}
+          onClick={() => {
+            if (setIsMenuOpen) {
+              setIsMenuOpen(false);
+            }
+          }}
         >
           {route.name}
         </Link>
