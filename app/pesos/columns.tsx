@@ -1,13 +1,10 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { Copy, Edit, MoreHorizontal, ArrowUpDown, Trash } from 'lucide-react';
+import { Copy, Edit, MoreHorizontal, ArrowUpDown } from 'lucide-react';
 import { es } from 'date-fns/locale';
-import axios from 'axios';
 import { setDefaultOptions, format } from 'date-fns';
 import { toast } from 'react-hot-toast';
-import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -16,6 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import CellAction from './cell-action';
 
 setDefaultOptions({ locale: es });
 
@@ -34,11 +32,6 @@ export type PesoColumn = {
   energia: number;
   edadMetabolica: number;
   imc: number;
-};
-
-const onCopy = (id: string) => {
-  navigator.clipboard.writeText(id);
-  toast.success('Size Id copied to the clipboard.');
 };
 
 export const columns: ColumnDef<PesoColumn>[] = [
@@ -64,56 +57,7 @@ export const columns: ColumnDef<PesoColumn>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
-      const router = useRouter();
-      const peso = row.original;
-
-      return (
-        <>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button className="h-8 w-8 p-0" variant="ghost">
-                {/* sr-only means it will only be visible to screen readers */}
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal
-                  className="
-                text-emerald-500
-                shadow-md
-                shadow-emerald-500
-                rounded-xl
-                hover:bg-emerald-500
-                hover:text-white
-                dark:hover:text-black
-                duration-500
-                text-base
-                p-1 
-                "
-                />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="start"
-              className="bg-white dark:bg-black border-none rounded-xl shadow-md shadow-emerald-500"
-            >
-              <DropdownMenuItem
-                onClick={() => onCopy(peso.id)}
-                className="cursor-pointer hover:text-emerald-500"
-              >
-                <Copy className="h-4 w-4 mr-2" />
-                Copiar id
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => router.push(`/pesos/${peso.id}`)}
-                className="cursor-pointer hover:text-emerald-500"
-              >
-                <Edit className="h-4 w-4 mr-2" />
-                Actualizar
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </>
-      );
-    },
+    cell: ({ row }) => <CellAction peso={row.original} />,
   },
   {
     accessorKey: 'masa',
