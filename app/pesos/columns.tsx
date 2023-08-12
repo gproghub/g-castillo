@@ -1,22 +1,21 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
+import { Copy, Edit, MoreHorizontal, ArrowUpDown, Trash } from 'lucide-react';
+import { es } from 'date-fns/locale';
+import axios from 'axios';
+import { setDefaultOptions, format } from 'date-fns';
+import { toast } from 'react-hot-toast';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Copy, Edit, MoreHorizontal, ArrowUpDown } from 'lucide-react';
-import { toast } from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
-import { DatePickerDemo } from '@/components/ui/date-picker';
-import { es } from 'date-fns/locale';
-import { setDefaultOptions, format } from 'date-fns';
 
 setDefaultOptions({ locale: es });
 
@@ -40,6 +39,20 @@ export type PesoColumn = {
 const onCopy = (id: string) => {
   navigator.clipboard.writeText(id);
   toast.success('Size Id copied to the clipboard.');
+};
+
+const onDelete = async () => {
+  try {
+    const router = useRouter();
+    const params = useParams();
+
+    await axios.delete(`/api/pesos/${params.pesoId}`);
+    router.refresh();
+    toast.success('Size deleted.');
+  } catch (error) {
+    toast.error('Make sure you removed all products using this size.'); // We will prevent deleting in prisma's schema
+  } finally {
+  }
 };
 
 export const columns: ColumnDef<PesoColumn>[] = [
@@ -70,34 +83,49 @@ export const columns: ColumnDef<PesoColumn>[] = [
       const peso = row.original;
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="h-8 w-8 p-0" variant="ghost">
-              {/* sr-only means it will only be visible to screen readers */}
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="start"
-            className="bg-white dark:bg-black border-none rounded-xl shadow-md shadow-emerald-500"
-          >
-            <DropdownMenuItem
-              onClick={() => onCopy(peso.id)}
-              className="cursor-pointer hover:text-emerald-500"
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="h-8 w-8 p-0" variant="ghost">
+                {/* sr-only means it will only be visible to screen readers */}
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal
+                  className="
+                text-emerald-500
+                shadow-md
+                shadow-emerald-500
+                rounded-xl
+                hover:bg-emerald-500
+                hover:text-white
+                dark:hover:text-black
+                duration-500
+                text-base
+                p-1 
+                "
+                />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="start"
+              className="bg-white dark:bg-black border-none rounded-xl shadow-md shadow-emerald-500"
             >
-              <Copy className="h-4 w-4 mr-2" />
-              Copy id
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => router.push(`/pesos/${peso.id}`)}
-              className="cursor-pointer hover:text-emerald-500"
-            >
-              <Edit className="h-4 w-4 mr-2" />
-              Update
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+              <DropdownMenuItem
+                onClick={() => onCopy(peso.id)}
+                className="cursor-pointer hover:text-emerald-500"
+              >
+                <Copy className="h-4 w-4 mr-2" />
+                Copiar id
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => router.push(`/pesos/${peso.id}`)}
+                className="cursor-pointer hover:text-emerald-500"
+              >
+                <Edit className="h-4 w-4 mr-2" />
+                Actualizar
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </>
       );
     },
   },
@@ -115,6 +143,11 @@ export const columns: ColumnDef<PesoColumn>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const masa = row.getValue('masa');
+      const formatted = String(masa).replace('.', ',');
+      return formatted;
+    },
   },
   {
     accessorKey: 'grasaCorporal',
@@ -129,6 +162,11 @@ export const columns: ColumnDef<PesoColumn>[] = [
           <p className=" w-12">G.Corp (%)</p>
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      const grasaCorporal = row.getValue('grasaCorporal');
+      const formatted = String(grasaCorporal).replace('.', ',');
+      return formatted;
     },
   },
   {
@@ -145,6 +183,11 @@ export const columns: ColumnDef<PesoColumn>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const agua = row.getValue('agua');
+      const formatted = String(agua).replace('.', ',');
+      return formatted;
+    },
   },
   {
     accessorKey: 'grasaVisceral',
@@ -160,6 +203,11 @@ export const columns: ColumnDef<PesoColumn>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const grasaVisceral = row.getValue('grasaVisceral');
+      const formatted = String(grasaVisceral).replace('.', ',');
+      return formatted;
+    },
   },
   {
     accessorKey: 'musculo',
@@ -174,6 +222,11 @@ export const columns: ColumnDef<PesoColumn>[] = [
           <p className=" w-12">Músc (kg)</p>
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      const musculo = row.getValue('musculo');
+      const formatted = String(musculo).replace('.', ',');
+      return formatted;
     },
   },
   {
@@ -204,6 +257,11 @@ export const columns: ColumnDef<PesoColumn>[] = [
           <p className=" w-12">Hueso (kg)</p>
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      const hueso = row.getValue('hueso');
+      const formatted = String(hueso).replace('.', ',');
+      return formatted;
     },
   },
   {
@@ -249,6 +307,11 @@ export const columns: ColumnDef<PesoColumn>[] = [
           <p className=" w-12">IMC</p>
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      const imc = row.getValue('imc');
+      const formatted = String(imc).replace('.', ',');
+      return formatted;
     },
   },
 ];

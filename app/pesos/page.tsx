@@ -12,6 +12,9 @@ const PesosPage = async () => {
     where: {
       userId,
     },
+    orderBy: {
+      fecha: 'desc',
+    },
   });
   return (
     <div className="max-w-7xl mx-auto p-10">

@@ -13,16 +13,16 @@ datasource db {
 model Peso {
   id                String      @id @default(auto()) @map("_id") @db.ObjectId
   fecha             DateTime    @default(now()) @unique
-  masa              Int   
-  grasaCorporal     Int   
-  agua              Int   
-  grasaVisceral     Int   
-  musculo           Int   
-  nivelFisico       Int   
-  hueso             Int   
-  energia           Int   
-  edadMetabolica    Int  
-  imc               Int 
+  masa              Float   
+  grasaCorporal     Float   
+  agua              Float   
+  grasaVisceral     Float   
+  musculo           Float   
+  nivelFisico       Float   
+  hueso             Float   
+  energia           Float   
+  edadMetabolica    Float  
+  imc               Float 
   userId            String
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt

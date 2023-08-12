@@ -67,3 +67,27 @@ export const PATCH = async (req: Request, { params }: { params: { pesoId: string
     return new NextResponse('Internal Error', { status: 500 });
   }
 };
+
+// DELETE PESO
+export const DELETE = async ({ params }: { params: { pesoId: string } }) => {
+  try {
+    //Check params exists
+    if (!params.pesoId) return new NextResponse('pesoId requerido');
+
+    // Check user exists
+    const { userId } = auth();
+    if (!userId) return new NextResponse('Unautenticated', { status: 401 });
+
+    // Delete peso
+    const deletedPeso = await prismadb.peso.delete({
+      where: {
+        id: params.pesoId,
+      },
+    });
+
+    return NextResponse.json(deletedPeso);
+  } catch (error) {
+    console.log('[PESO_DELETE]', error);
+    return new NextResponse('Internal Error', { status: 500 });
+  }
+};

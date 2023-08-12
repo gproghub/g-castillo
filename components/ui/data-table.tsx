@@ -57,7 +57,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="text-emerald-500">
                       {header.isPlaceholder
                         ? null
                         : flexRender(header.column.columnDef.header, header.getContext())}
@@ -89,24 +89,6 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         </Table>
         <div className="flex items-center justify-end space-x-2 py-4 px-4">
           <DataTablePagination table={table} />
-          {/* <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className="shadow-emerald-500 text-emerald-500 shadow-md text-base rounded-xl border-none  hover:bg-emerald-500 hover:text-white duration-500"
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className="shadow-emerald-500 text-emerald-500 shadow-md text-base rounded-xl border-none  hover:bg-emerald-500 hover:text-white duration-500"
-          >
-            Next
-          </Button> */}
         </div>
       </div>
     </div>
