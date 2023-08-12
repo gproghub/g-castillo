@@ -69,7 +69,7 @@ export const PATCH = async (req: Request, { params }: { params: { pesoId: string
 };
 
 // DELETE PESO
-export const DELETE = async ({ params }: { params: { pesoId: string } }) => {
+export const DELETE = async (req: Request, { params }: { params: { pesoId: string } }) => {
   try {
     //Check params exists
     if (!params.pesoId) return new NextResponse('pesoId requerido');
