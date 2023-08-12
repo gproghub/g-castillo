@@ -335,3 +335,6 @@ const PesosGraficos: React.FC<PesosGraficosProps> = ({ pesos }) => {
 };
 
 export default PesosGraficos;
+
+
+export default PesosGraficos;
