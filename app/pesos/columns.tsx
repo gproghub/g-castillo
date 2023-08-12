@@ -41,20 +41,6 @@ const onCopy = (id: string) => {
   toast.success('Size Id copied to the clipboard.');
 };
 
-const onDelete = async () => {
-  try {
-    const router = useRouter();
-    const params = useParams();
-
-    await axios.delete(`/api/pesos/${params.pesoId}`);
-    router.refresh();
-    toast.success('Size deleted.');
-  } catch (error) {
-    toast.error('Make sure you removed all products using this size.'); // We will prevent deleting in prisma's schema
-  } finally {
-  }
-};
-
 export const columns: ColumnDef<PesoColumn>[] = [
   {
     accessorKey: 'fecha',
